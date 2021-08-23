@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BotonAzul extends StatelessWidget {
-  final void Function() onPressed;
+  //Es dynamic para poder asignarle null a la propiedad onPressed
+  final dynamic onPressed;
   final String text;
 
   const BotonAzul({
@@ -14,8 +15,13 @@ class BotonAzul extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all(2),
-        backgroundColor: MaterialStateProperty.all(Colors.blue),
+        backgroundColor: this.onPressed == null
+            ? MaterialStateProperty.all(Colors.grey)
+            : MaterialStateProperty.all(Colors.blue),
         shape: MaterialStateProperty.all(StadiumBorder()),
+        mouseCursor: this.onPressed == null
+            ? MaterialStateProperty.all(MouseCursor.defer)
+            : MaterialStateProperty.all(MouseCursor.uncontrolled),
       ),
       onPressed: this.onPressed,
       child: Container(

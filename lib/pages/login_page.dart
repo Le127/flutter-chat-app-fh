@@ -1,6 +1,8 @@
-import 'package:chat_app/widgets/boton_azul.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/widgets/boton_azul.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/custom_labels.dart';
 import 'package:chat_app/widgets/custom_logo.dart';
@@ -45,10 +47,12 @@ class _Form extends StatefulWidget {
 
 class __FormState extends State<_Form> {
   final emailController = TextEditingController();
-  final passController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -63,15 +67,20 @@ class __FormState extends State<_Form> {
           CustomInput(
             icon: Icons.lock_outline,
             placeholder: "Contraseña",
-            textController: passController,
+            textController: passwordController,
             isPassword: true,
           ),
           BotonAzul(
             text: "Ingrese",
-            onPressed: () {
-              print("controllerEmail: ${emailController.text}");
-              print("controllerPass: ${passController.text}");
-            },
+            onPressed: authService.autenticando
+                ? null
+                : () {
+                    //Para cerrar el teclado luego de presionar en Ingrese
+                    FocusScope.of(context).unfocus();
+
+                    authService.login(
+                        emailController.text.trim(), passwordController.text);
+                  },
           ),
         ],
       ),

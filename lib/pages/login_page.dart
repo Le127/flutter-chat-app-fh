@@ -84,6 +84,7 @@ class __FormState extends State<_Form> {
 
                     if (loginOk) {
                       //Navegar a otra pantalla
+                      Navigator.pushReplacementNamed(context, 'usuarios');
                     } else {
                       mostrarAlerta(context, "Login incorrecto",
                           "Revise sus credenciales nuevamente");

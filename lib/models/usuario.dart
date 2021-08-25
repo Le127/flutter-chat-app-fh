@@ -4,13 +4,14 @@
 
 import 'dart:convert';
 
+// desde Json a Object sin string
 Usuario usuarioFromJson(String str) => Usuario.fromJson(json.decode(str));
 
 String usuarioToJson(Usuario data) => json.encode(data.toJson());
 
 class Usuario {
   Usuario({
-    required this.online,
+    this.online = false,
     required this.nombre,
     required this.email,
     required this.uid,
